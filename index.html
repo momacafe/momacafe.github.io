@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#0A2340">
+<title>MoMA Cafe — Playa d'en Bossa, Ibiza</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ═══ VARIABLES ═══ */
+:root{
+  --navy:#0A2340;
+  --navy2:#0D3260;
+  --ocean:#1565C0;
+  --sky:#2196F3;
+  --aqua:#00B4D8;
+  --aqua2:#90E0EF;
+  --white:#FFFFFF;
+  --off:#F0F7FF;
+  --sand:#FFF8F0;
+  --coral:#FF7043;
+  --green:#06C167;
+  --orange:#FF8000;
+  --muted:#5A7A9A;
+  --silver:#B0C4DE;
+  --silver2:#D6E8F5;
+  --text:#0A2340;
+  --fd:'Playfair Display',serif;
+  --fb:'Inter',sans-serif;
+  --sw:260px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;font-size:16px;}
+body{font-family:var(--fb);background:var(--white);color:var(--text);overflow-x:hidden;}
+img{max-width:100%;display:block;}
+a{text-decoration:none;color:inherit;}
+
+/* ═══ SIDEBAR ═══ */
+.sb{
+  position:fixed;right:0;top:0;width:var(--sw);height:100vh;
+  background:var(--navy);z-index:1000;
+  display:flex;flex-direction:column;padding:36px 22px;
+  border-left:3px solid var(--aqua);
+  overflow-y:auto;overflow-x:hidden;
+}
+.sb-logo{font-family:var(--fd);font-size:26px;color:var(--white);letter-spacing:5px;text-transform:uppercase;margin-bottom:4px;}
+.sb-sub{font-size:9px;letter-spacing:3px;color:var(--aqua);text-transform:uppercase;margin-bottom:28px;padding-bottom:22px;border-bottom:1px solid rgba(0,180,216,.3);}
+.sb-lbl{font-size:8px;letter-spacing:3px;color:var(--silver);text-transform:uppercase;margin-bottom:10px;margin-top:4px;}
+.lang-list{display:flex;flex-direction:column;gap:2px;margin-bottom:24px;}
+.lb{background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:6px;transition:background .2s;width:100%;}
+.lb:hover,.lb.on{background:rgba(0,180,216,.15);}
+.lb.on .ln{color:var(--aqua);}
+.lf{font-size:17px;}
+.ln{font-size:11px;letter-spacing:1px;color:var(--silver);text-transform:uppercase;font-weight:500;}
+.nav-list{list-style:none;display:flex;flex-direction:column;gap:1px;flex:1;}
+.na{display:block;padding:8px 10px;font-size:11px;letter-spacing:1.5px;color:var(--silver);text-transform:uppercase;border-radius:6px;transition:all .2s;position:relative;}
+.na::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:2px;height:0;background:var(--aqua);border-radius:2px;transition:height .2s;}
+.na:hover{color:var(--white);background:rgba(255,255,255,.05);}
+.na:hover::before{height:14px;}
+.sb-socials{display:flex;gap:7px;margin:16px 0 10px;}
+.ss{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;border:1px solid rgba(255,255,255,.15);transition:all .2s;}
+.ss:hover{transform:translateY(-2px);border-color:var(--aqua);}
+.sb-btn{display:block;width:100%;padding:12px;background:linear-gradient(135deg,var(--aqua),var(--sky));color:var(--white);font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:700;text-align:center;border-radius:8px;margin-top:8px;transition:all .3s;}
+.sb-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,180,216,.4);}
+
+/* ═══ TOPBAR ═══ */
+.topbar{
+  position:fixed;top:0;left:0;right:var(--sw);height:62px;
+  background:rgba(255,255,255,.96);backdrop-filter:blur(14px);
+  z-index:900;display:flex;align-items:center;justify-content:space-between;
+  padding:0 36px;border-bottom:2px solid var(--aqua2);
+  box-shadow:0 2px 16px rgba(10,35,64,.08);
+}
+.tb-brand{font-family:var(--fd);font-size:24px;color:var(--navy);letter-spacing:5px;text-transform:uppercase;}
+.tb-brand b{color:var(--ocean);font-weight:400;}
+.tb-r{display:flex;align-items:center;gap:12px;}
+.tb-phone{font-size:12px;color:var(--muted);letter-spacing:.5px;}
+.tb-phone:hover{color:var(--ocean);}
+.btn-reserve{padding:8px 18px;background:var(--ocean);color:var(--white);font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:700;border:none;border-radius:6px;cursor:pointer;transition:all .3s;}
+.btn-reserve:hover{background:var(--navy);transform:translateY(-1px);}
+.burger{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:8px;cursor:pointer;}
+.burger span{width:21px;height:2px;background:var(--navy);border-radius:2px;display:block;transition:all .3s;}
+
+/* ═══ OVERLAY ═══ */
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:999;}
+.ov.on{display:block;}
+
+/* ═══ MAIN ═══ */
+main{margin-right:var(--sw);}
+
+/* ═══ HERO ═══ */
+.hero{min-height:100vh;position:relative;overflow:hidden;display:flex;align-items:center;padding:110px 60px 70px;}
+.hv{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none;}
+.ho{position:absolute;inset:0;z-index:1;background:linear-gradient(135deg,rgba(10,35,64,.85) 0%,rgba(13,50,96,.6) 55%,rgba(0,180,216,.1) 100%);}
+.hc{position:relative;z-index:2;max-width:720px;}
+.h-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:22px;}
+.h-line{width:36px;height:2px;background:var(--aqua);}
+.h-tag{font-size:10px;letter-spacing:4px;color:rgba(144,224,239,.9);text-transform:uppercase;}
+.h-title{font-family:var(--fd);font-size:clamp(44px,7vw,90px);font-weight:400;line-height:.95;color:var(--white);margin-bottom:22px;text-shadow:0 2px 28px rgba(0,0,0,.3);}
+.h-title em{font-style:italic;color:var(--aqua);}
+.h-desc{font-size:clamp(14px,2vw,16px);line-height:1.7;color:rgba(214,232,245,.9);max-width:480px;margin-bottom:36px;font-weight:300;}
+.h-btns{display:flex;gap:14px;flex-wrap:wrap;}
+.btn-a{padding:13px 32px;background:linear-gradient(135deg,var(--aqua),var(--sky));color:var(--white);font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:700;border:none;border-radius:8px;cursor:pointer;transition:all .35s;display:inline-block;}
+.btn-a:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(0,180,216,.45);}
+.btn-b{padding:13px 32px;background:transparent;color:var(--white);font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:500;border:1.5px solid rgba(255,255,255,.45);border-radius:8px;cursor:pointer;transition:all .35s;display:inline-block;}
+.btn-b:hover{background:rgba(255,255,255,.12);transform:translateY(-3px);}
+.h-stats{position:absolute;bottom:48px;right:48px;display:flex;gap:36px;z-index:2;}
+.st-n{font-family:var(--fd);font-size:34px;color:var(--white);line-height:1;display:block;}
+.st-l{font-size:9px;letter-spacing:3px;color:rgba(144,224,239,.75);text-transform:uppercase;display:block;margin-top:4px;}
+
+/* ═══ MARQUEE ═══ */
+.mq{background:linear-gradient(90deg,var(--ocean),var(--aqua),var(--sky),var(--ocean));background-size:300%;animation:bgs 8s ease infinite;padding:13px 0;overflow:hidden;}
+@keyframes bgs{0%{background-position:0%}50%{background-position:100%}100%{background-position:0%}}
+.mq-t{display:flex;animation:mq 22s linear infinite;white-space:nowrap;}
+.mq-i{font-size:10px;letter-spacing:3px;color:var(--white);text-transform:uppercase;padding:0 28px;flex-shrink:0;font-weight:600;}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ═══ SOCIAL BAR ═══ */
+.socbar{background:var(--navy2);padding:16px 36px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.socbar-t{font-size:10px;letter-spacing:3px;color:rgba(255,255,255,.7);text-transform:uppercase;}
+.socbar-r{display:flex;gap:10px;flex-wrap:wrap;}
+.soc-a{display:flex;align-items:center;gap:7px;padding:8px 14px;border-radius:7px;font-size:11px;font-weight:700;letter-spacing:.5px;transition:all .3s;white-space:nowrap;}
+.soc-a:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.25);}
+.s-ig{background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);color:#fff;}
+.s-je{background:#FF8000;color:#fff;}
+.s-ue{background:#06C167;color:#fff;}
+
+/* ═══ SECTIONS ═══ */
+.sec{padding:80px 60px;}
+.sec-off{background:var(--off);}
+.sec-navy{background:var(--navy);}
+.sec-sand{background:var(--sand);}
+.s-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.s-line{width:32px;height:2px;background:var(--aqua);}
+.s-tag{font-size:9px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;}
+.s-tag-w{color:rgba(176,196,222,.7);}
+.s-title{font-family:var(--fd);font-size:clamp(30px,4vw,50px);color:var(--navy);line-height:1.1;margin-bottom:12px;}
+.s-title em{font-style:italic;color:var(--ocean);}
+.s-title-w{color:var(--white);}
+.s-title-w em{color:var(--aqua);}
+.s-hdr{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:48px;gap:28px;flex-wrap:wrap;}
+.s-desc{font-size:14px;color:var(--muted);line-height:1.65;max-width:260px;font-weight:300;}
+.s-desc-w{color:var(--silver);}
+
+/* ═══ ABOUT ═══ */
+.about-g{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+.about-vis{position:relative;height:420px;border-radius:18px;overflow:visible;}
+.amap{position:absolute;inset:0;border-radius:18px;overflow:hidden;border:2px solid var(--aqua2);box-shadow:0 16px 48px rgba(10,35,64,.15);}
+.amap iframe{width:100%;height:100%;border:none;}
+.amap-ov{position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,35,64,.8) 0%,transparent 55%);border-radius:18px;}
+.amap-info{position:absolute;bottom:0;left:0;right:0;padding:24px;z-index:2;}
+.amap-name{font-family:var(--fd);font-size:24px;color:var(--white);}
+.amap-addr{font-size:11px;color:var(--aqua);letter-spacing:1.5px;text-transform:uppercase;margin-top:6px;}
+.a-badge{position:absolute;top:16px;right:-12px;background:var(--ocean);color:var(--white);border-radius:12px;padding:14px 18px;text-align:center;z-index:3;box-shadow:0 8px 20px rgba(21,101,192,.4);}
+.a-bnum{font-family:var(--fd);font-size:28px;line-height:1;display:block;}
+.a-bstars{font-size:13px;margin:3px 0;display:block;}
+.a-blbl{font-size:8px;letter-spacing:2px;text-transform:uppercase;font-weight:700;display:block;}
+.about-t{font-family:var(--fd);font-size:clamp(28px,3.5vw,44px);color:var(--navy);line-height:1.15;margin-bottom:18px;}
+.about-t em{font-style:italic;color:var(--ocean);}
+.about-p{font-size:15px;color:var(--text);line-height:1.8;font-weight:300;margin-bottom:24px;}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.fact{background:var(--white);border:1.5px solid var(--silver2);border-radius:10px;padding:16px;transition:all .3s;}
+.fact:hover{border-color:var(--aqua);box-shadow:0 4px 16px rgba(0,180,216,.12);transform:translateY(-2px);}
+.fi{font-size:20px;margin-bottom:6px;}
+.ft{font-size:13px;color:var(--navy);font-weight:600;margin-bottom:3px;}
+.fd{font-size:11px;color:var(--muted);font-weight:300;line-height:1.4;}
+
+/* ═══ WHAT'S ON ═══ */
+.wgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--silver2);}
+.wcard{background:var(--white);padding:36px 28px;cursor:default;transition:all .35s;position:relative;overflow:hidden;}
+.wcard::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,var(--ocean),var(--aqua));transform:scaleX(0);transform-origin:left;transition:transform .4s;}
+.wcard:hover{background:var(--navy);transform:translateY(-4px);box-shadow:0 18px 48px rgba(10,35,64,.2);z-index:1;}
+.wcard:hover::after{transform:scaleX(1);}
+.wcard:hover .wc-t{color:var(--white);}
+.wcard:hover .wc-d{color:var(--silver);}
+.wc-n{position:absolute;top:16px;right:20px;font-family:var(--fd);font-size:52px;color:rgba(10,35,64,.04);line-height:1;}
+.wcard:hover .wc-n{color:rgba(255,255,255,.04);}
+.wc-i{font-size:32px;margin-bottom:16px;display:block;transition:transform .35s;}
+.wcard:hover .wc-i{transform:scale(1.15) rotate(5deg);}
+.wc-t{font-family:var(--fd);font-size:19px;color:var(--navy);margin-bottom:8px;transition:color .3s;}
+.wc-d{font-size:13px;color:var(--muted);line-height:1.6;font-weight:300;transition:color .3s;}
+
+/* ═══ GALLERY ═══ */
+.gg{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:220px 220px;gap:6px;}
+.gg .g1{grid-column:1/2;grid-row:1/3;}
+.gg .g2{grid-column:2/3;grid-row:1/2;}
+.gg .g3{grid-column:3/4;grid-row:1/2;}
+.gg .g4{grid-column:2/3;grid-row:2/3;}
+.gg .g5{grid-column:3/4;grid-row:2/3;}
+.gi{position:relative;overflow:hidden;border-radius:10px;cursor:pointer;background:var(--silver2);}
+.gi img{width:100%;height:100%;object-fit:cover;transition:transform .5s,filter .4s;}
+.gi:hover img{transform:scale(1.07);}
+.gi::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,35,64,.55) 0%,transparent 50%);opacity:0;transition:opacity .35s;}
+.gi:hover::after{opacity:1;}
+.gi-cap{position:absolute;bottom:12px;left:12px;color:var(--white);font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:700;z-index:2;opacity:0;transform:translateY(6px);transition:all .3s;}
+.gi:hover .gi-cap{opacity:1;transform:translateY(0);}
+/* Lightbox */
+.lb{display:none;position:fixed;inset:0;background:rgba(10,35,64,.96);z-index:9999;align-items:center;justify-content:center;padding:16px;}
+.lb.on{display:flex;}
+.lb-img{max-width:90vw;max-height:85vh;object-fit:contain;border-radius:10px;}
+.lb-x{position:absolute;top:16px;right:18px;background:none;border:none;color:var(--white);font-size:28px;cursor:pointer;line-height:1;padding:8px;}
+.lb-x:hover{color:var(--aqua);}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.1);border:none;color:var(--white);font-size:22px;cursor:pointer;padding:14px 16px;border-radius:8px;transition:background .2s;}
+.lb-nav:hover{background:var(--ocean);}
+.lb-p{left:12px;} .lb-n{right:12px;}
+
+/* ═══ CARTA ═══ */
+.carta-wrap{margin-top:0;}
+/* Category tabs */
+.ctabs{display:flex;gap:0;overflow-x:auto;-webkit-overflow-scrolling:touch;border-bottom:2px solid var(--silver2);}
+.ctabs::-webkit-scrollbar{height:0;}
+.ctab{padding:14px 20px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);cursor:pointer;background:none;border:none;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .25s;font-family:var(--fb);white-space:nowrap;font-weight:500;display:flex;align-items:center;gap:6px;}
+.ctab:hover{color:var(--ocean);}
+.ctab.on{color:var(--ocean);border-bottom-color:var(--ocean);font-weight:700;}
+.cpanel{display:none;}
+.cpanel.on{display:block;}
+/* Menu cards grid */
+.mcg{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;padding:20px 0;}
+.mc{
+  background:var(--white);border:1.5px solid var(--silver2);
+  border-radius:12px;padding:18px 20px;
+  display:flex;justify-content:space-between;align-items:center;
+  gap:14px;transition:all .25s;
+}
+.mc:hover{border-color:var(--aqua);box-shadow:0 4px 18px rgba(0,180,216,.13);transform:translateY(-2px);}
+.mc-info{flex:1;}
+.mc-n{font-size:15px;color:var(--navy);font-weight:600;margin-bottom:4px;line-height:1.3;}
+.mc-d{font-size:12px;color:var(--muted);line-height:1.4;font-weight:300;font-style:italic;}
+.mc-p{font-family:var(--fd);font-size:22px;font-weight:400;color:var(--ocean);white-space:nowrap;flex-shrink:0;}
+/* Category header */
+.cat-hdr{display:flex;align-items:center;gap:12px;padding:24px 0 8px;}
+.cat-icon{font-size:28px;}
+.cat-name{font-family:var(--fd);font-size:22px;color:var(--navy);}
+.cat-count{font-size:11px;color:var(--muted);letter-spacing:1px;margin-left:4px;}
+
+/* ═══ HOURS ═══ */
+.hw{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:start;}
+.htbl{display:flex;flex-direction:column;}
+.hr{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.07);}
+.hr:last-child{border:none;}
+.hd{font-size:13px;color:var(--silver);}
+.ht{font-size:13px;color:var(--aqua);font-weight:600;letter-spacing:1px;}
+.obadge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,180,216,.12);border:1px solid rgba(0,180,216,.35);padding:8px 16px;border-radius:20px;margin-top:16px;}
+.bdot{width:8px;height:8px;background:#4CAF50;border-radius:50%;animation:bl 1.5s ease-in-out infinite;}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:.3}}
+.btxt{font-size:11px;letter-spacing:2px;color:var(--aqua);text-transform:uppercase;font-weight:600;}
+.mbox{border-radius:14px;overflow:hidden;height:300px;border:2px solid rgba(0,180,216,.3);}
+.mbox iframe{width:100%;height:100%;border:none;}
+
+/* ═══ REVIEWS ═══ */
+.rg{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.rc{background:var(--white);border:1.5px solid var(--silver2);border-radius:14px;padding:24px;transition:all .3s;}
+.rc:hover{border-color:var(--aqua);transform:translateY(-4px);box-shadow:0 10px 28px rgba(0,180,216,.1);}
+.rs{font-size:14px;margin-bottom:10px;color:#FFB300;}
+.rt{font-size:13px;color:var(--text);line-height:1.65;margin-bottom:14px;font-style:italic;font-weight:300;}
+.ra{font-size:11px;color:var(--ocean);letter-spacing:1px;text-transform:uppercase;font-weight:600;}
+.rcta{text-align:center;margin-top:40px;}
+.rtot{font-family:var(--fd);font-size:17px;color:var(--muted);margin-bottom:14px;}
+.rtot b{color:var(--ocean);}
+
+/* ═══ CONTACT ═══ */
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;}
+.ct{font-family:var(--fd);font-size:clamp(28px,4vw,46px);color:var(--navy);line-height:1.15;margin-bottom:18px;}
+.ct em{font-style:italic;color:var(--ocean);}
+.cd{font-size:15px;color:var(--muted);line-height:1.75;font-weight:300;margin-bottom:32px;}
+.citems{display:flex;flex-direction:column;gap:10px;}
+.ci{display:flex;align-items:center;gap:14px;padding:14px 18px;border:1.5px solid var(--silver2);border-radius:10px;transition:all .3s;}
+.ci:hover{border-color:var(--aqua);background:var(--off);transform:translateX(5px);}
+.ci-icon{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;background:var(--ocean);}
+.ci-lbl{font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:3px;}
+.ci-val{font-size:13px;color:var(--navy);font-weight:600;display:block;}
+.fb{background:var(--navy);border-radius:18px;padding:36px;}
+.fb-t{font-family:var(--fd);font-size:24px;color:var(--white);margin-bottom:24px;}
+.fg{margin-bottom:14px;}
+.fl{display:block;font-size:9px;letter-spacing:2.5px;color:var(--silver);text-transform:uppercase;margin-bottom:7px;}
+.fi2,.ft2{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:11px 14px;color:var(--white);font-size:14px;font-family:var(--fb);font-weight:300;outline:none;transition:all .3s;}
+.fi2::placeholder,.ft2::placeholder{color:rgba(176,196,222,.4);}
+.fi2:focus,.ft2:focus{border-color:var(--aqua);background:rgba(0,180,216,.07);}
+.ft2{resize:vertical;min-height:90px;}
+.btn-send{width:100%;padding:13px;background:linear-gradient(135deg,var(--aqua),var(--sky));color:var(--white);font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:700;border:none;border-radius:8px;cursor:pointer;margin-top:4px;transition:all .3s;}
+.btn-send:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(0,180,216,.4);}
+
+/* ═══ FOOTER ═══ */
+.footer{background:var(--navy);padding:48px 60px 24px;border-top:3px solid var(--aqua);}
+.fg2{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;margin-bottom:36px;}
+.fbrand{font-family:var(--fd);font-size:26px;color:var(--white);letter-spacing:5px;text-transform:uppercase;margin-bottom:8px;}
+.fbrand b{color:var(--aqua);font-weight:400;}
+.fdesc{font-size:12px;color:var(--silver);line-height:1.7;font-weight:300;max-width:220px;}
+.fsocials{display:flex;gap:8px;margin-top:14px;}
+.fsoc{width:34px;height:34px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;border:1px solid rgba(255,255,255,.12);transition:all .25s;}
+.fsoc:hover{transform:translateY(-2px);border-color:var(--aqua);}
+.fct{font-size:8px;letter-spacing:3px;color:var(--aqua);text-transform:uppercase;margin-bottom:14px;font-weight:600;}
+.fl2{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.fla{font-size:12px;color:var(--silver);font-weight:300;transition:color .2s;}
+.fla:hover{color:var(--white);}
+.fbot{border-top:1px solid rgba(255,255,255,.07);padding-top:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.fcp{font-size:10px;color:rgba(176,196,222,.5);letter-spacing:.5px;}
+.fcp b{color:var(--aqua);font-weight:600;}
+
+/* ═══ WHATSAPP FLOAT ═══ */
+.wa{position:fixed;bottom:24px;left:24px;z-index:1100;display:flex;align-items:center;gap:9px;background:#25D366;color:white;padding:11px 18px;border-radius:50px;font-size:13px;font-weight:700;box-shadow:0 6px 24px rgba(37,211,102,.4);transition:all .35s;animation:pwa 2.5s ease-in-out infinite;}
+.wa:hover{transform:translateY(-4px) scale(1.04);animation:none;box-shadow:0 14px 32px rgba(37,211,102,.5);}
+@keyframes pwa{0%,100%{box-shadow:0 6px 24px rgba(37,211,102,.4)}50%{box-shadow:0 6px 40px rgba(37,211,102,.65)}}
+
+/* ═══ CURSOR (desktop) ═══ */
+.cdot{width:7px;height:7px;background:var(--ocean);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;mix-blend-mode:multiply;}
+.cring{width:26px;height:26px;border:1.5px solid var(--ocean);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;opacity:.45;transition:all .22s ease;}
+
+/* ═══ REVEAL ═══ */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease;}
+.rv.vis{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+/* ═══ LANG ═══ */
+[data-lang]{display:none;}
+[data-lang].on{display:block;}
+
+/* ═══════════════════
+   RESPONSIVE
+═══════════════════ */
+/* 1280 */
+@media(max-width:1280px){
+  .wgrid{grid-template-columns:repeat(2,1fr);}
+  .rg{grid-template-columns:repeat(2,1fr);}
+  .fg2{grid-template-columns:2fr 1fr 1fr;}
+}
+/* 1024 */
+@media(max-width:1024px){
+  .gg{grid-template-columns:repeat(2,1fr);grid-template-rows:auto;}
+  .gg .g1,.gg .g2,.gg .g3,.gg .g4,.gg .g5{grid-column:auto;grid-row:auto;height:200px;}
+  .about-g{gap:40px;}
+}
+/* 900 — tablet/mobile */
+@media(max-width:900px){
+  :root{--sw:0px;}
+  .sb{transform:translateX(100%);width:280px;transition:transform .35s ease;}
+  .sb.on{transform:translateX(0);}
+  main{margin-right:0!important;}
+  .topbar{right:0;padding:0 18px;}
+  .burger{display:flex;}
+  .tb-phone{display:none;}
+  .hero{padding:90px 24px 50px;}
+  .h-stats{display:none;}
+  .sec{padding:52px 24px;}
+  .socbar{padding:14px 24px;}
+  .about-g,.hw,.cg{grid-template-columns:1fr;gap:32px;}
+  .about-vis{display:none;}
+  .facts{grid-template-columns:1fr 1fr;}
+  .wgrid{grid-template-columns:1fr;}
+  .gg{grid-template-columns:repeat(2,1fr);grid-template-rows:auto;}
+  .gg .g1,.gg .g2,.gg .g3,.gg .g4,.gg .g5{grid-column:auto;grid-row:auto;height:170px;}
+  .rg{grid-template-columns:1fr;}
+  .mcg{grid-template-columns:1fr;}
+  .footer{padding:40px 24px 20px;}
+  .fg2{grid-template-columns:1fr 1fr;gap:24px;}
+  .fbot{flex-direction:column;text-align:center;}
+  .s-hdr{flex-direction:column;gap:12px;}
+}
+/* 600 — small mobile */
+@media(max-width:600px){
+  .h-title{font-size:clamp(38px,11vw,56px);}
+  .h-btns{flex-direction:column;}
+  .btn-a,.btn-b{text-align:center;}
+  .gg{grid-template-columns:1fr;}
+  .gg .g1,.gg .g2,.gg .g3,.gg .g4,.gg .g5{height:200px;}
+  .facts{grid-template-columns:1fr;}
+  .rg{grid-template-columns:1fr;}
+  .fg2{grid-template-columns:1fr;}
+  .fb{padding:26px 18px;}
+  .ctab{padding:11px 14px;font-size:10px;}
+  .mc{flex-direction:column;align-items:flex-start;gap:8px;}
+  .mc-p{font-size:20px;}
+  .socbar-r{gap:6px;}
+  .soc-a{padding:7px 11px;font-size:10px;}
+  .lb-nav{padding:10px 12px;font-size:18px;}
+}
+/* 400 */
+@media(max-width:400px){
+  .topbar{padding:0 12px;}
+  .sec{padding:40px 14px;}
+  .hero{padding:80px 14px 44px;}
+  .footer{padding:36px 14px 18px;}
+}
+@media(min-width:901px){.burger{display:none!important;}}
+</style>
+</head>
+<body>
+
+<!-- LIGHTBOX -->
+<div class="lb" id="lb" onclick="closeLB(event)">
+  <button class="lb-x" onclick="closeLB()">✕</button>
+  <button class="lb-nav lb-p" onclick="lbNav(-1,event)">‹</button>
+  <img class="lb-img" id="lbimg" src="" alt="">
+  <button class="lb-nav lb-n" onclick="lbNav(1,event)">›</button>
+</div>
+
+<!-- CURSOR (desktop) -->
+<div class="cdot" id="cdot"></div>
+<div class="cring" id="cring"></div>
+
+<!-- OVERLAY -->
+<div class="ov" id="ov" onclick="closeSB()"></div>
+
+<!-- ── SIDEBAR ── -->
+<aside class="sb" id="sb">
+  <div class="sb-logo">MoMA</div>
+  <div class="sb-sub">Cafe · Bar · Ibiza</div>
+
+  <div class="sb-lbl">Language</div>
+  <div class="lang-list">
+    <button class="lb on" onclick="setLang('en',this)"><span class="lf">🇬🇧</span><span class="ln">English</span></button>
+    <button class="lb" onclick="setLang('es',this)"><span class="lf">🇪🇸</span><span class="ln">Español</span></button>
+    <button class="lb" onclick="setLang('fr',this)"><span class="lf">🇫🇷</span><span class="ln">Français</span></button>
+    <button class="lb" onclick="setLang('it',this)"><span class="lf">🇮🇹</span><span class="ln">Italiano</span></button>
+    <button class="lb" onclick="setLang('ar',this)"><span class="lf">🇲🇦</span><span class="ln">العربية</span></button>
+  </div>
+
+  <div class="sb-lbl">Menu</div>
+  <ul class="nav-list">
+    <li><a href="#hero"      class="na" onclick="closeSB()">Home</a></li>
+    <li><a href="#about"     class="na" onclick="closeSB()">About</a></li>
+    <li><a href="#offerings" class="na" onclick="closeSB()">What's On</a></li>
+    <li><a href="#gallery"   class="na" onclick="closeSB()">Gallery</a></li>
+    <li><a href="#carta"     class="na" onclick="closeSB()">La Carta</a></li>
+    <li><a href="#hours"     class="na" onclick="closeSB()">Hours & Map</a></li>
+    <li><a href="#reviews"   class="na" onclick="closeSB()">Reviews</a></li>
+    <li><a href="#contact"   class="na" onclick="closeSB()">Contact</a></li>
+  </ul>
+
+  <div class="sb-lbl" style="margin-top:16px">Follow & Order</div>
+  <div class="sb-socials">
+    <a href="https://www.instagram.com/momaibiza" class="ss s-ig" target="_blank" title="Instagram">📸</a>
+    <a href="https://www.just-eat.es/restaurants-moma-cafe-ibiza/menu?shipping=pickup#pre-order" class="ss s-je" target="_blank" title="Just Eat">🍕</a>
+    <a href="https://www.ubereats.com/es/store/moma-cafe/kamspjgOUa2DRSdbmHWRHw" class="ss s-ue" target="_blank" title="Uber Eats">🛵</a>
+  </div>
+  <a href="https://wa.me/34608505300" class="sb-btn" target="_blank">📲 Reserve Now</a>
+</aside>
+
+<!-- ── TOPBAR ── -->
+<header class="topbar">
+  <div class="tb-brand">Mo<b>MA</b></div>
+  <div class="tb-r">
+    <a href="tel:+34608505300" class="tb-phone">+34 608 50 53 00</a>
+    <a href="https://wa.me/34608505300" class="btn-reserve" target="_blank">Reserve</a>
+    <button class="burger" onclick="openSB()"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main>
+
+<!-- ── HERO ── -->
+<section class="hero" id="hero">
+  <video class="hv" autoplay muted loop playsinline><source src="https://i.imgur.com/5OGyspw.mp4" type="video/mp4"></video>
+  <div class="ho"></div>
+  <div class="hc">
+    <div class="h-eyebrow rv">
+      <div class="h-line"></div>
+      <span class="h-tag">
+        <span data-lang="en" class="on">Playa d'en Bossa · Ibiza</span>
+        <span data-lang="es">Playa d'en Bossa · Ibiza</span>
+        <span data-lang="fr">Playa d'en Bossa · Ibiza</span>
+        <span data-lang="it">Playa d'en Bossa · Ibiza</span>
+        <span data-lang="ar">بلايا دين بوسا · إيبيزا</span>
+      </span>
+    </div>
+    <h1 class="h-title rv d1">
+      <span data-lang="en" class="on">Food.<br>Drinks.<br><em>Ibiza Nights.</em></span>
+      <span data-lang="es">Comida.<br>Bebidas.<br><em>Noches en Ibiza.</em></span>
+      <span data-lang="fr">Cuisine.<br>Cocktails.<br><em>Nuits à Ibiza.</em></span>
+      <span data-lang="it">Cucina.<br>Drink.<br><em>Notti a Ibiza.</em></span>
+      <span data-lang="ar" style="font-family:serif">طعام.<br>مشروبات.<br><em>ليالي إيبيزا.</em></span>
+    </h1>
+    <p class="h-desc rv d2">
+      <span data-lang="en" class="on">From midday to 4 AM — pizza, sushi, cocktails and unforgettable nights at the heart of Playa d'en Bossa.</span>
+      <span data-lang="es">De mediodía a las 4 AM — pizza, sushi, cócteles y noches inolvidables en Playa d'en Bossa.</span>
+      <span data-lang="fr">De midi à 4h du matin — pizza, sushi, cocktails et nuits inoubliables à Playa d'en Bossa.</span>
+      <span data-lang="it">Dal mezzogiorno alle 4 — pizza, sushi, cocktail e notti indimenticabili a Playa d'en Bossa.</span>
+      <span data-lang="ar" style="font-family:serif">من الظهر حتى 4 صباحاً — بيتزا وسوشي وكوكتيلات وليالٍ لا تُنسى.</span>
+    </p>
+    <div class="h-btns rv d3">
+      <a href="#carta" class="btn-a">
+        <span data-lang="en" class="on">See Menu</span><span data-lang="es">Ver Carta</span><span data-lang="fr">Voir Menu</span><span data-lang="it">Vedi Menu</span><span data-lang="ar">اطّلع على القائمة</span>
+      </a>
+      <a href="https://wa.me/34608505300" class="btn-b" target="_blank">
+        <span data-lang="en" class="on">Book a Table</span><span data-lang="es">Reservar Mesa</span><span data-lang="fr">Réserver</span><span data-lang="it">Prenota</span><span data-lang="ar">احجز طاولة</span>
+      </a>
+    </div>
+  </div>
+  <div class="h-stats rv d4">
+    <div><span class="st-n">3.8★</span><span class="st-l">Google</span></div>
+    <div><span class="st-n">168</span><span class="st-l"><span data-lang="en" class="on">Reviews</span><span data-lang="es">Reseñas</span><span data-lang="fr">Avis</span><span data-lang="it">Recensioni</span><span data-lang="ar">تقييم</span></span></div>
+    <div><span class="st-n">4AM</span><span class="st-l"><span data-lang="en" class="on">Open Daily</span><span data-lang="es">Cada Día</span><span data-lang="fr">Tous les Jours</span><span data-lang="it">Ogni Giorno</span><span data-lang="ar">يومياً</span></span></div>
+  </div>
+</section>
+
+<!-- ── MARQUEE ── -->
+<div class="mq"><div class="mq-t">
+  <span class="mq-i">🍕 Best Pizza in Ibiza</span><span class="mq-i">🍣 Fresh Sushi</span><span class="mq-i">🍹 Craft Cocktails</span><span class="mq-i">📺 Live Sports</span><span class="mq-i">🌙 Open Until 4AM</span><span class="mq-i">📍 Playa d'en Bossa</span><span class="mq-i">☀️ Beach Vibes</span>
+  <span class="mq-i">🍕 Best Pizza in Ibiza</span><span class="mq-i">🍣 Fresh Sushi</span><span class="mq-i">🍹 Craft Cocktails</span><span class="mq-i">📺 Live Sports</span><span class="mq-i">🌙 Open Until 4AM</span><span class="mq-i">📍 Playa d'en Bossa</span><span class="mq-i">☀️ Beach Vibes</span>
+</div></div>
+
+<!-- ── SOCIAL BAR ── -->
+<div class="socbar">
+  <span class="socbar-t">🌐 Follow & Order Online</span>
+  <div class="socbar-r">
+    <a href="https://www.instagram.com/momaibiza" class="soc-a s-ig" target="_blank">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      @momaibiza
+    </a>
+    <a href="https://www.just-eat.es/restaurants-moma-cafe-ibiza/menu?shipping=pickup#pre-order" class="soc-a s-je" target="_blank">🍕 Just Eat</a>
+    <a href="https://www.ubereats.com/es/store/moma-cafe/kamspjgOUa2DRSdbmHWRHw" class="soc-a s-ue" target="_blank">🛵 Uber Eats</a>
+  </div>
+</div>
+
+<!-- ── ABOUT ── -->
+<section class="sec sec-off" id="about">
+  <div class="about-g">
+    <div class="about-vis rv">
+      <div class="amap">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3040.5!2d1.4064675!3d38.888049!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1299456755249191%3A0x4dacf84f199148b0!2sMoma%20Cafe!5e0!3m2!1sen!2ses!4v1" allowfullscreen loading="lazy"></iframe>
+        <div class="amap-ov"></div>
+        <div class="amap-info">
+          <div class="amap-name">MoMA Cafe</div>
+          <div class="amap-addr">Ctra. Platja d'en Bossa, 9 · Ibiza</div>
+        </div>
+      </div>
+      <div class="a-badge rv d2"><span class="a-bnum">3.8</span><span class="a-bstars">★★★★</span><span class="a-blbl">Google</span></div>
+    </div>
+    <div class="rv d1">
+      <div class="s-eyebrow"><div class="s-line"></div><span class="s-tag"><span data-lang="en" class="on">About Us</span><span data-lang="es">Sobre Nosotros</span><span data-lang="fr">À Propos</span><span data-lang="it">Chi Siamo</span><span data-lang="ar">من نحن</span></span></div>
+      <h2 class="about-t">
+        <span data-lang="en" class="on">Where Ibiza<br><em>Comes Alive</em></span>
+        <span data-lang="es">Donde Ibiza<br><em>Cobra Vida</em></span>
+        <span data-lang="fr">Là Où Ibiza<br><em>Prend Vie</em></span>
+        <span data-lang="it">Dove Ibiza<br><em>Prende Vita</em></span>
+        <span data-lang="ar" style="font-family:serif">حيث تنبض<br><em>إيبيزا بالحياة</em></span>
+      </h2>
+      <p class="about-p">
+        <span data-lang="en" class="on">MoMA Cafe is the beating heart of Playa d'en Bossa. Stone-oven pizzas loved worldwide, the freshest sushi, expertly crafted cocktails and live sports on multiple screens — open from 12 PM to 4 AM every day.</span>
+        <span data-lang="es">MoMA Cafe es el corazón de Playa d'en Bossa. Pizzas al horno de piedra, el sushi más fresco, cócteles artesanales y deportes en vivo — abiertos de 12 PM a 4 AM cada día.</span>
+        <span data-lang="fr">MoMA Cafe est le cœur de Playa d'en Bossa. Pizza au four, sushi frais, cocktails artisanaux et sports en direct — ouvert de 12h à 4h du matin tous les jours.</span>
+        <span data-lang="it">MoMA Cafe è il cuore di Playa d'en Bossa. Pizza al forno, sushi fresco, cocktail artigianali e sport in diretta — aperto dalle 12 alle 4 ogni giorno.</span>
+        <span data-lang="ar" style="font-family:serif;direction:rtl;text-align:right">مقهى موما قلب بلايا دين بوسا — بيتزا الفرن وأطازج السوشي والكوكتيلات والرياضة المباشرة يومياً من الظهر حتى 4 فجراً.</span>
+      </p>
+      <div class="facts">
+        <div class="fact"><div class="fi">🍕</div><div class="ft">Best Pizza in Ibiza</div><div class="fd">Stone-oven, loved worldwide</div></div>
+        <div class="fact"><div class="fi">🍣</div><div class="ft">Fresh Sushi</div><div class="fd">Full of flavour every time</div></div>
+        <div class="fact"><div class="fi">📺</div><div class="ft">Live Sports</div><div class="fd">Multiple screens, all channels</div></div>
+        <div class="fact"><div class="fi">🍹</div><div class="ft">Craft Cocktails</div><div class="fd">Expertly made, every night</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHAT'S ON ── -->
+<section class="sec sec-white" id="offerings">
+  <div class="s-hdr">
+    <div>
+      <div class="s-eyebrow rv"><div class="s-line"></div><span class="s-tag"><span data-lang="en" class="on">What We Offer</span><span data-lang="es">Qué Ofrecemos</span><span data-lang="fr">Ce Que Nous Offrons</span><span data-lang="it">Cosa Offriamo</span><span data-lang="ar">ما نقدمه</span></span></div>
+      <h2 class="s-title rv d1"><span data-lang="en" class="on">The Full <em>Experience</em></span><span data-lang="es">La <em>Experiencia</em> Completa</span><span data-lang="fr">L'Expérience <em>Complète</em></span><span data-lang="it">L'Esperienza <em>Completa</em></span><span data-lang="ar" style="font-family:serif">التجربة <em>الكاملة</em></span></h2>
+    </div>
+    <p class="s-desc rv d2"><span data-lang="en" class="on">From your first bite at noon to the last cocktail before sunrise.</span><span data-lang="es">Desde el primer bocado hasta el último cóctel.</span><span data-lang="fr">De votre première bouchée au dernier cocktail.</span><span data-lang="it">Dal primo boccone all'ultimo cocktail.</span><span data-lang="ar" style="font-family:serif">من أول لقمة حتى آخر كوكتيل.</span></p>
+  </div>
+  <div class="wgrid">
+    <div class="wcard rv"><span class="wc-n">01</span><span class="wc-i">🍕</span><div class="wc-t"><span data-lang="en" class="on">Stone-Oven Pizza</span><span data-lang="es">Pizza al Horno</span><span data-lang="fr">Pizza au Four</span><span data-lang="it">Pizza al Forno</span><span data-lang="ar" style="font-family:serif">بيتزا الفرن</span></div><div class="wc-d"><span data-lang="en" class="on">Voted best pizza in Ibiza. Crispy, fresh, perfect.</span><span data-lang="es">La mejor pizza de Ibiza. Crujiente, fresca, perfecta.</span><span data-lang="fr">Meilleure pizza d'Ibiza. Croustillante et fraîche.</span><span data-lang="it">Migliore pizza di Ibiza. Croccante e fresca.</span><span data-lang="ar" style="font-family:serif">أفضل بيتزا في إيبيزا.</span></div></div>
+    <div class="wcard rv d1"><span class="wc-n">02</span><span class="wc-i">🍣</span><div class="wc-t"><span data-lang="en" class="on">Fresh Sushi</span><span data-lang="es">Sushi Fresco</span><span data-lang="fr">Sushi Frais</span><span data-lang="it">Sushi Fresco</span><span data-lang="ar" style="font-family:serif">سوشي طازج</span></div><div class="wc-d"><span data-lang="en" class="on">Perfect for birthdays and special celebrations.</span><span data-lang="es">Perfecto para cumpleaños y celebraciones especiales.</span><span data-lang="fr">Parfait pour les anniversaires et fêtes spéciales.</span><span data-lang="it">Perfetto per compleanni e serate speciali.</span><span data-lang="ar" style="font-family:serif">مثالي للمناسبات الخاصة.</span></div></div>
+    <div class="wcard rv d2"><span class="wc-n">03</span><span class="wc-i">🍹</span><div class="wc-t"><span data-lang="en" class="on">Cocktails & Bar</span><span data-lang="es">Cócteles & Bar</span><span data-lang="fr">Cocktails & Bar</span><span data-lang="it">Cocktail & Bar</span><span data-lang="ar" style="font-family:serif">كوكتيلات وبار</span></div><div class="wc-d"><span data-lang="en" class="on">Expertly crafted in a vibrant atmosphere.</span><span data-lang="es">Artesanales en un ambiente vibrante y estiloso.</span><span data-lang="fr">Élaborés dans une ambiance vibrante.</span><span data-lang="it">Artigianali in un'atmosfera vivace.</span><span data-lang="ar" style="font-family:serif">كوكتيلات في أجواء حيوية.</span></div></div>
+    <div class="wcard rv"><span class="wc-n">04</span><span class="wc-i">📺</span><div class="wc-t"><span data-lang="en" class="on">Live Sports</span><span data-lang="es">Deportes en Vivo</span><span data-lang="fr">Sports en Direct</span><span data-lang="it">Sport in Diretta</span><span data-lang="ar" style="font-family:serif">الرياضة المباشرة</span></div><div class="wc-d"><span data-lang="en" class="on">Multiple big screens, all channels including English.</span><span data-lang="es">Múltiples pantallas, todos los canales incluyendo inglés.</span><span data-lang="fr">Plusieurs écrans, toutes les chaînes.</span><span data-lang="it">Più schermi, tutti i canali inclusi quelli inglesi.</span><span data-lang="ar" style="font-family:serif">شاشات متعددة بجميع القنوات.</span></div></div>
+    <div class="wcard rv d1"><span class="wc-n">05</span><span class="wc-i">🎉</span><div class="wc-t"><span data-lang="en" class="on">Events & Open Bar</span><span data-lang="es">Eventos & Open Bar</span><span data-lang="fr">Événements Open Bar</span><span data-lang="it">Open Bar & Feste</span><span data-lang="ar" style="font-family:serif">فعاليات والبار المفتوح</span></div><div class="wc-d"><span data-lang="en" class="on">Birthday packages, group bookings and open bar.</span><span data-lang="es">Paquetes cumpleaños, grupos y open bar.</span><span data-lang="fr">Anniversaires, groupes et open bar.</span><span data-lang="it">Compleanni, gruppi e open bar.</span><span data-lang="ar" style="font-family:serif">باقات أعياد الميلاد والبار المفتوح.</span></div></div>
+    <div class="wcard rv d2"><span class="wc-n">06</span><span class="wc-i">🌙</span><div class="wc-t"><span data-lang="en" class="on">Late Night Vibe</span><span data-lang="es">Noche Tardía</span><span data-lang="fr">Ambiance Nocturne</span><span data-lang="it">Atmosfera Notturna</span><span data-lang="ar" style="font-family:serif">أجواء الليل</span></div><div class="wc-d"><span data-lang="en" class="on">Open until 4 AM every single day.</span><span data-lang="es">Abierto hasta las 4 AM cada día.</span><span data-lang="fr">Ouvert jusqu'à 4h du matin tous les jours.</span><span data-lang="it">Aperto fino alle 4 ogni giorno.</span><span data-lang="ar" style="font-family:serif">مفتوح حتى 4 صباحاً يومياً.</span></div></div>
+  </div>
+</section>
+
+<!-- ── GALLERY ── -->
+<section class="sec sec-navy" id="gallery">
+  <div class="s-hdr">
+    <div>
+      <div class="s-eyebrow rv"><div class="s-line"></div><span class="s-tag s-tag-w"><span data-lang="en" class="on">Our Vibe</span><span data-lang="es">Nuestro Ambiente</span><span data-lang="fr">Notre Ambiance</span><span data-lang="it">La Nostra Atmosfera</span><span data-lang="ar">أجواؤنا</span></span></div>
+      <h2 class="s-title s-title-w rv d1"><span data-lang="en" class="on">Photo <em>Gallery</em></span><span data-lang="es"><em>Galería</em> Fotos</span><span data-lang="fr"><em>Galerie</em> Photos</span><span data-lang="it"><em>Galleria</em> Foto</span><span data-lang="ar" style="font-family:serif"><em>معرض</em> الصور</span></h2>
+    </div>
+  </div>
+  <div class="gg rv">
+    <div class="gi g1" onclick="openLB(0)"><img src="https://i.imgur.com/xGkBb2g.png" alt="MoMA Cafe" loading="lazy"><span class="gi-cap">MoMA Cafe</span></div>
+    <div class="gi g2" onclick="openLB(1)"><img src="https://i.imgur.com/riyeNWr.png" alt="Food" loading="lazy"><span class="gi-cap">Our Kitchen</span></div>
+    <div class="gi g3" onclick="openLB(2)"><img src="https://i.imgur.com/wGAUjO6.png" alt="Drinks" loading="lazy"><span class="gi-cap">Cocktails</span></div>
+    <div class="gi g4" onclick="openLB(3)"><img src="https://i.imgur.com/vWKNjij.png" alt="Atmosphere" loading="lazy"><span class="gi-cap">Atmosphere</span></div>
+    <div class="gi g5" onclick="openLB(4)"><img src="https://i.imgur.com/cXyhnzD.png" alt="Nights" loading="lazy"><span class="gi-cap">Ibiza Nights</span></div>
+  </div>
+</section>
+
+<!-- ── CARTA ── -->
+<section class="sec sec-off" id="carta">
+  <div class="s-hdr">
+    <div>
+      <div class="s-eyebrow rv"><div class="s-line"></div><span class="s-tag">Menú Completo</span></div>
+      <h2 class="s-title rv d1">La <em>Carta</em></h2>
+    </div>
+    <p class="s-desc rv d2">Cocina mediterránea e italiana. Todo fresco, todo con cariño.</p>
+  </div>
+
+  <div class="ctabs rv">
+    <button class="ctab on" onclick="showTab('e',this)">🥗 Entrantes</button>
+    <button class="ctab" onclick="showTab('s',this)">🥬 Ensaladas</button>
+    <button class="ctab" onclick="showTab('p',this)">🍕 Pizzas</button>
+    <button class="ctab" onclick="showTab('pa',this)">🍝 Pasta</button>
+    <button class="ctab" onclick="showTab('c',this)">🥩 Carne & Pescado</button>
+    <button class="ctab" onclick="showTab('h',this)">🍔 Hamburguesas</button>
+  </div>
+
+  <!-- ENTRANTES -->
+  <div class="cpanel on" id="tab-e">
+    <div class="cat-hdr"><span class="cat-icon">🥗</span><span class="cat-name">Entrantes</span><span class="cat-count">(8 platos)</span></div>
+    <div class="mcg">
+      <div class="mc"><div class="mi-info"><div class="mc-n">Pan de Ajo</div></div><div class="mc-p">9,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Pan de Ajo con Queso</div></div><div class="mc-p">9,50 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Nachos con Guacamole, Queso Cheddar y Pico de Gallo</div></div><div class="mc-p">15,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Caprese</div><div class="mc-d">Mozzarella de búfala y tomate</div></div><div class="mc-p">16,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Jamón Serrano y Mozzarella de Búfala</div></div><div class="mc-p">18,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Carpaccio de Ternera con Rúcola y Parmesano</div></div><div class="mc-p">18,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Gambas al Ajillo</div></div><div class="mc-p">17,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Parrillada de Verduras</div></div><div class="mc-p">12,00 €</div></div>
+    </div>
+  </div>
+
+  <!-- ENSALADAS -->
+  <div class="cpanel" id="tab-s">
+    <div class="cat-hdr"><span class="cat-icon">🥬</span><span class="cat-name">Ensaladas</span><span class="cat-count">(3 platos)</span></div>
+    <div class="mcg">
+      <div class="mc"><div class="mi-info"><div class="mc-n">Caesar</div><div class="mc-d">Lechuga, pollo, picatostes y salsa caesar</div></div><div class="mc-p">17,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Mixta</div></div><div class="mc-p">12,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Ensalada de Queso de Cabra con Nueces y Miel</div></div><div class="mc-p">17,00 €</div></div>
+    </div>
+  </div>
+
+  <!-- PIZZAS -->
+  <div class="cpanel" id="tab-p">
+    <div class="cat-hdr"><span class="cat-icon">🍕</span><span class="cat-name">Pizzas</span><span class="cat-count">(19 pizzas)</span></div>
+    <div class="mcg">
+      <div class="mc"><div class="mi-info"><div class="mc-n">Margherita</div></div><div class="mc-p">12,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Marinara</div><div class="mc-d">Tomate, ajo, orégano y anchoas</div></div><div class="mc-p">11,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Búfala</div><div class="mc-d">Tomate y mozzarella de búfala</div></div><div class="mc-p">18,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Siciliana</div><div class="mc-d">Pomodoro, mozzarella, alcaparras y aceitunas</div></div><div class="mc-p">13,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">MoMA</div><div class="mc-d">Tomate cherry, mozzarella, jamón serrano, rúcola</div></div><div class="mc-p">—</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Diavola</div><div class="mc-d">Tomate, mozzarella y salami picante</div></div><div class="mc-p">15,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Capricciosa</div><div class="mc-d">Tomate, mozzarella, jamón york, champiñones, alcachofas</div></div><div class="mc-p">16,50 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Quattro Stagioni</div><div class="mc-d">Tomate, mozzarella, jamón york, champiñones, alcachofas, salami picante</div></div><div class="mc-p">16,50 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Jamón York y Champiñones</div><div class="mc-d">Tomate y mozzarella</div></div><div class="mc-p">15,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Atún y Cebolla</div><div class="mc-d">Tomate y mozzarella</div></div><div class="mc-p">16,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Bacon y Champiñones</div><div class="mc-d">Tomate y mozzarella</div></div><div class="mc-p">17,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Cuatro Quesos</div></div><div class="mc-p">15,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Vegetariana</div><div class="mc-d">Pimientos, berenjenas, calabacín y tomate</div></div><div class="mc-p">14,50 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Bolognesa</div></div><div class="mc-p">15,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Carbonara</div></div><div class="mc-p">18,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Mortadella</div><div class="mc-d">Mozzarella, mortadela y crema de pistacho</div></div><div class="mc-p">20,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Hawaii</div><div class="mc-d">Tomate, mozzarella, piña y jamón york</div></div><div class="mc-p">15,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Calzone</div><div class="mc-d">Tomate, mozzarella, champiñones y jamón york</div></div><div class="mc-p">20,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Wustel y Patatine</div></div><div class="mc-p">17,00 €</div></div>
+    </div>
+  </div>
+
+  <!-- PASTA -->
+  <div class="cpanel" id="tab-pa">
+    <div class="cat-hdr"><span class="cat-icon">🍝</span><span class="cat-name">Principales — Pasta</span><span class="cat-count">(10 platos)</span></div>
+    <div class="mcg">
+      <div class="mc"><div class="mi-info"><div class="mc-n">Tagliolini al Salmón</div><div class="mc-d">Pasta italiana con salmón, crema y perejil</div></div><div class="mc-p">17,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Tagliatelle a la "Amatriciana"</div><div class="mc-d">Guanciale, tomates dátiles datterini doc</div></div><div class="mc-p">18,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Tagliatelle a la Bolognese</div><div class="mc-d">Ragú clásico italiano</div></div><div class="mc-p">17,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Spaghetti alla Carbonara</div><div class="mc-d">Guanciale, huevo, tomates dátiles y pecorino romano</div></div><div class="mc-p">18,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Paccheri allo "Scoglio"</div><div class="mc-d">Almejas, mejillones, langostinos, gambas y tomates dátiles</div></div><div class="mc-p">24,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Tagliatelle Tomate y Albahaca</div><div class="mc-d">Tomates dátiles y albahaca fresca</div></div><div class="mc-p">14,50 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Gnocchi a los Cuatro Quesos</div><div class="mc-d">Gorgonzola, parmesano, nata fresca y queso doc</div></div><div class="mc-p">18,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Tagliatelle Gambas, Rúcola, Tomate Cherry y Ginger</div></div><div class="mc-p">18,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Lasagna a la Bolognese</div><div class="mc-d">Lasagna casera con ragú clásico italiano</div></div><div class="mc-p">19,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Spaghetti con Almejas</div></div><div class="mc-p">24,00 €</div></div>
+    </div>
+  </div>
+
+  <!-- CARNE & PESCADO -->
+  <div class="cpanel" id="tab-c">
+    <div class="cat-hdr"><span class="cat-icon">🥩</span><span class="cat-name">Principales — Carne y Pescado</span><span class="cat-count">(7 platos)</span></div>
+    <div class="mcg">
+      <div class="mc"><div class="mi-info"><div class="mc-n">Entrecote de Ternera</div><div class="mc-d">A la brasa con patatas al horno</div></div><div class="mc-p">24,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Tiras de Ternera</div><div class="mc-d">Sobre rúcola, tomates dátiles y parmesano</div></div><div class="mc-p">26,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Pechuga de Pollo</div><div class="mc-d">A la brasa con ensalada mediterránea</div></div><div class="mc-p">17,50 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Milanesa de Pollo con Patatas al Horno</div></div><div class="mc-p">17,50 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Salmón a la Parrilla</div><div class="mc-d">Salmón fresco con ensalada mediterránea</div></div><div class="mc-p">23,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Dorada a la Mediterránea</div><div class="mc-d">Servida con patatas al horno</div></div><div class="mc-p">25,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Salsas: Pimienta Verde o Roquefort</div></div><div class="mc-p">5,50 €</div></div>
+    </div>
+  </div>
+
+  <!-- HAMBURGUESAS -->
+  <div class="cpanel" id="tab-h">
+    <div class="cat-hdr"><span class="cat-icon">🍔</span><span class="cat-name">Hamburguesas Caseras</span><span class="cat-count">(5 opciones)</span></div>
+    <div class="mcg">
+      <div class="mc"><div class="mi-info"><div class="mc-n">Royale</div><div class="mc-d">Bacon, queso, tomate, lechuga</div></div><div class="mc-p">14,50 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Momá</div><div class="mc-d">Huevo, bacon, queso, tomate, lechuga</div></div><div class="mc-p">15,50 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Mexicana</div><div class="mc-d">Jalapeños, queso, tomate, lechuga</div></div><div class="mc-p">15,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Crispy Chicken</div><div class="mc-d">Lechuga, tomate y cheddar</div></div><div class="mc-p">15,00 €</div></div>
+      <div class="mc"><div class="mi-info"><div class="mc-n">Ración de Patatas Fritas</div></div><div class="mc-p">6,00 €</div></div>
+    </div>
+  </div>
+
+  <!-- ORDER ONLINE CTA -->
+  <div style="margin-top:32px;padding:24px;background:var(--navy);border-radius:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;" class="rv">
+    <div>
+      <div style="font-family:var(--fd);font-size:20px;color:var(--white);margin-bottom:6px;">¿Prefieres pedir a domicilio?</div>
+      <div style="font-size:13px;color:var(--silver);font-weight:300;">También disponible en Just Eat y Uber Eats</div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <a href="https://www.just-eat.es/restaurants-moma-cafe-ibiza/menu?shipping=pickup#pre-order" class="soc-a s-je" target="_blank" style="padding:10px 18px;font-size:12px;">🍕 Pedir en Just Eat</a>
+      <a href="https://www.ubereats.com/es/store/moma-cafe/kamspjgOUa2DRSdbmHWRHw" class="soc-a s-ue" target="_blank" style="padding:10px 18px;font-size:12px;">🛵 Pedir en Uber Eats</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOURS & MAP ── -->
+<section class="sec sec-navy" id="hours">
+  <div class="s-hdr">
+    <div>
+      <div class="s-eyebrow rv"><div class="s-line"></div><span class="s-tag s-tag-w"><span data-lang="en" class="on">Find Us</span><span data-lang="es">Encuéntranos</span><span data-lang="fr">Nous Trouver</span><span data-lang="it">Trovaci</span><span data-lang="ar">جدنا</span></span></div>
+      <h2 class="s-title s-title-w rv d1"><span data-lang="en" class="on">Hours & <em>Location</em></span><span data-lang="es">Horarios & <em>Ubicación</em></span><span data-lang="fr">Horaires & <em>Localisation</em></span><span data-lang="it">Orari & <em>Posizione</em></span><span data-lang="ar" style="font-family:serif">الأوقات <em>والموقع</em></span></h2>
+    </div>
+  </div>
+  <div class="hw">
+    <div class="rv">
+      <div class="htbl">
+        <div class="hr"><span class="hd">Lunes / Monday</span><span class="ht">12:00 – 4:00 AM</span></div>
+        <div class="hr"><span class="hd">Martes / Tuesday</span><span class="ht">12:00 – 4:00 AM</span></div>
+        <div class="hr"><span class="hd">Miércoles / Wednesday</span><span class="ht">12:00 – 4:00 AM</span></div>
+        <div class="hr"><span class="hd">Jueves / Thursday</span><span class="ht">12:00 – 4:00 AM</span></div>
+        <div class="hr"><span class="hd">Viernes / Friday</span><span class="ht">12:00 – 4:00 AM</span></div>
+        <div class="hr"><span class="hd">Sábado / Saturday</span><span class="ht">12:00 – 4:00 AM</span></div>
+        <div class="hr"><span class="hd">Domingo / Sunday</span><span class="ht">12:00 – 4:00 AM</span></div>
+      </div>
+      <div class="obadge"><span class="bdot"></span><span class="btxt"><span data-lang="en" class="on">Open Every Day</span><span data-lang="es">Abierto Cada Día</span><span data-lang="fr">Ouvert Tous les Jours</span><span data-lang="it">Aperto Ogni Giorno</span><span data-lang="ar">مفتوح كل يوم</span></span></div>
+    </div>
+    <div class="mbox rv d1">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3040.5!2d1.4064675!3d38.888049!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1299456755249191%3A0x4dacf84f199148b0!2sMoma%20Cafe!5e0!3m2!1sen!2ses!4v1" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ── REVIEWS ── -->
+<section class="sec sec-off" id="reviews">
+  <div class="s-hdr">
+    <div>
+      <div class="s-eyebrow rv"><div class="s-line"></div><span class="s-tag"><span data-lang="en" class="on">Google Reviews</span><span data-lang="es">Reseñas Google</span><span data-lang="fr">Avis Google</span><span data-lang="it">Recensioni Google</span><span data-lang="ar">تقييمات جوجل</span></span></div>
+      <h2 class="s-title rv d1"><span data-lang="en" class="on">What Guests <em>Say</em></span><span data-lang="es">Qué Dicen <em>Nuestros Clientes</em></span><span data-lang="fr">Ce Que Disent <em>Nos Clients</em></span><span data-lang="it">Cosa Dicono <em>i Clienti</em></span><span data-lang="ar" style="font-family:serif">ما يقوله <em>ضيوفنا</em></span></h2>
+    </div>
+  </div>
+  <div class="rg">
+    <div class="rc rv"><div class="rs">★★★★★</div><p class="rt">"Best pizza I have ever had! Me and my boyfriend risked missing our flight to go back the next day just to have it again. 10000/10."</p><div class="ra">Google Review ✓</div></div>
+    <div class="rc rv d1"><div class="rs">★★★★★</div><p class="rt">"We went for a birthday celebration. The sushi was fresh and full of flavour, the cocktails were expertly crafted. Incredible experience!"</p><div class="ra">Google Review ✓</div></div>
+    <div class="rc rv d2"><div class="rs">★★★★★</div><p class="rt">"Came to watch the Euro game — many screens, different channels including English. The pizza was delicious! We would definitely come back."</p><div class="ra">Google Review ✓</div></div>
+  </div>
+  <div class="rcta rv">
+    <p class="rtot"><b>3.8★</b> — Based on <b>168</b> Google Reviews</p>
+    <a href="https://maps.app.goo.gl/MapvevfFfpz4yKix6" class="btn-a" target="_blank" style="display:inline-block;margin-top:14px"><span data-lang="en" class="on">See All Reviews on Google</span><span data-lang="es">Ver Todas las Reseñas</span><span data-lang="fr">Voir Tous les Avis</span><span data-lang="it">Vedi Tutte le Recensioni</span><span data-lang="ar">اقرأ كل التقييمات</span></a>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section class="sec sec-white" id="contact">
+  <div class="cg">
+    <div>
+      <div class="s-eyebrow rv"><div class="s-line"></div><span class="s-tag"><span data-lang="en" class="on">Get In Touch</span><span data-lang="es">Contáctanos</span><span data-lang="fr">Contactez-nous</span><span data-lang="it">Contattaci</span><span data-lang="ar">تواصل معنا</span></span></div>
+      <h2 class="ct rv d1"><span data-lang="en" class="on">Reserve Your <em>Table</em></span><span data-lang="es">Reserva Tu <em>Mesa</em></span><span data-lang="fr">Réservez Votre <em>Table</em></span><span data-lang="it">Prenota Il Tuo <em>Tavolo</em></span><span data-lang="ar" style="font-family:serif">احجز <em>طاولتك</em></span></h2>
+      <p class="cd rv d2"><span data-lang="en" class="on">Ctra. de Platja d'en Bossa, 9 — your home for food, drinks and unforgettable nights in Ibiza.</span><span data-lang="es">Ctra. de Platja d'en Bossa, 9 — tu hogar para comida, bebidas y noches inolvidables en Ibiza.</span><span data-lang="fr">Ctra. de Platja d'en Bossa, 9 — votre adresse pour la cuisine, les cocktails et les nuits inoubliables.</span><span data-lang="it">Ctra. de Platja d'en Bossa, 9 — il tuo posto per cibo, drink e notti indimenticabili.</span><span data-lang="ar" style="font-family:serif;direction:rtl;text-align:right">Ctra. de Platja d'en Bossa, 9 — وجهتك للطعام والمشروبات والليالي التي لا تُنسى.</span></p>
+      <div class="citems rv d3">
+        <a href="https://wa.me/34608505300" class="ci" target="_blank"><div class="ci-icon">💬</div><div><span class="ci-lbl">WhatsApp</span><span class="ci-val">+34 608 50 53 00</span></div></a>
+        <a href="tel:+34608505300" class="ci"><div class="ci-icon">📞</div><div><span class="ci-lbl">Phone</span><span class="ci-val">+34 608 50 53 00</span></div></a>
+        <a href="https://maps.app.goo.gl/MapvevfFfpz4yKix6" class="ci" target="_blank"><div class="ci-icon">📍</div><div><span class="ci-lbl">Address</span><span class="ci-val">Ctra. Platja d'en Bossa, 9 · Ibiza</span></div></a>
+        <a href="https://www.instagram.com/momaibiza" class="ci" target="_blank"><div class="ci-icon" style="background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045)">📸</div><div><span class="ci-lbl">Instagram</span><span class="ci-val">@momaibiza</span></div></a>
+        <a href="https://www.just-eat.es/restaurants-moma-cafe-ibiza/menu?shipping=pickup#pre-order" class="ci" target="_blank"><div class="ci-icon" style="background:#FF8000">🍕</div><div><span class="ci-lbl">Order Online</span><span class="ci-val">Just Eat · Recogida en local</span></div></a>
+        <a href="https://www.ubereats.com/es/store/moma-cafe/kamspjgOUa2DRSdbmHWRHw" class="ci" target="_blank"><div class="ci-icon" style="background:#06C167">🛵</div><div><span class="ci-lbl">Delivery</span><span class="ci-val">Uber Eats</span></div></a>
+      </div>
+    </div>
+    <div class="fb rv d1">
+      <h3 class="fb-t"><span data-lang="en" class="on">Book a Table</span><span data-lang="es">Reservar Mesa</span><span data-lang="fr">Réserver une Table</span><span data-lang="it">Prenota un Tavolo</span><span data-lang="ar" style="font-family:serif">احجز طاولة</span></h3>
+      <div class="fg"><label class="fl">Name / Nombre</label><input type="text" class="fi2" id="fn" placeholder="Your name..."></div>
+      <div class="fg"><label class="fl">Date / Fecha</label><input type="text" class="fi2" id="fd" placeholder="e.g. 15 July 2026"></div>
+      <div class="fg"><label class="fl">Guests / Personas</label><input type="number" class="fi2" id="fg3" placeholder="e.g. 4" min="1"></div>
+      <div class="fg"><label class="fl">Message / Mensaje</label><textarea class="ft2" id="fm" placeholder="Birthday, open bar, special requests..."></textarea></div>
+      <button class="btn-send" onclick="sendRes()"><span data-lang="en" class="on">Send via WhatsApp →</span><span data-lang="es">Enviar por WhatsApp →</span><span data-lang="fr">Envoyer via WhatsApp →</span><span data-lang="it">Invia via WhatsApp →</span><span data-lang="ar">أرسل عبر واتساب ←</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <div class="fg2">
+    <div>
+      <div class="fbrand">Mo<b>MA</b></div>
+      <p class="fdesc">Cafe · Bar · Pizza · Sushi · Cocktails<br>Ctra. de Platja d'en Bossa, 9<br>Sant Josep de sa Talaia, Ibiza</p>
+      <div class="fsocials">
+        <a href="https://www.instagram.com/momaibiza" class="fsoc" style="background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045)" target="_blank">📸</a>
+        <a href="https://www.just-eat.es/restaurants-moma-cafe-ibiza/menu?shipping=pickup#pre-order" class="fsoc" style="background:#FF8000" target="_blank">🍕</a>
+        <a href="https://www.ubereats.com/es/store/moma-cafe/kamspjgOUa2DRSdbmHWRHw" class="fsoc" style="background:#06C167" target="_blank">🛵</a>
+      </div>
+    </div>
+    <div>
+      <div class="fct">Hours</div>
+      <ul class="fl2">
+        <li><span class="fla">Mon – Sun</span></li>
+        <li><span class="fla" style="color:var(--aqua)">12:00 PM – 4:00 AM</span></li>
+        <li><span class="fla">Open Every Day</span></li>
+      </ul>
+    </div>
+    <div>
+      <div class="fct">Contact</div>
+      <ul class="fl2">
+        <li><a href="tel:+34608505300" class="fla">+34 608 50 53 00</a></li>
+        <li><a href="https://maps.app.goo.gl/MapvevfFfpz4yKix6" class="fla" target="_blank">Google Maps</a></li>
+        <li><a href="https://wa.me/34608505300" class="fla" target="_blank">WhatsApp</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="fct">Order Online</div>
+      <ul class="fl2">
+        <li><a href="https://www.instagram.com/momaibiza" class="fla" target="_blank">📸 @momaibiza</a></li>
+        <li><a href="https://www.just-eat.es/restaurants-moma-cafe-ibiza/menu?shipping=pickup#pre-order" class="fla" target="_blank">🍕 Just Eat</a></li>
+        <li><a href="https://www.ubereats.com/es/store/moma-cafe/kamspjgOUa2DRSdbmHWRHw" class="fla" target="_blank">🛵 Uber Eats</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="fbot">
+    <span class="fcp">© 2026 <b>MoMA Cafe</b> · Ibiza. All rights reserved.</span>
+    <span class="fcp">by <b>HERIO</b> Marketing Digital</span>
+  </div>
+</footer>
+</main>
+
+<!-- WhatsApp Float -->
+<a href="https://wa.me/34608505300?text=Hola%20MoMA%20Cafe!%20Quisiera%20reservar%20una%20mesa." class="wa" target="_blank">
+  <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  Reserve
+</a>
+
+<script>
+// ── Gallery lightbox ──
+const imgs=['https://i.imgur.com/xGkBb2g.png','https://i.imgur.com/riyeNWr.png','https://i.imgur.com/wGAUjO6.png','https://i.imgur.com/vWKNjij.png','https://i.imgur.com/cXyhnzD.png'];
+let lbI=0;
+function openLB(i){lbI=i;document.getElementById('lbimg').src=imgs[i];document.getElementById('lb').classList.add('on');document.body.style.overflow='hidden';}
+function closeLB(e){if(!e||e.target===document.getElementById('lb')||e.currentTarget.tagName==='BUTTON'){document.getElementById('lb').classList.remove('on');document.body.style.overflow='';}}
+function lbNav(d,e){e.stopPropagation();lbI=(lbI+d+imgs.length)%imgs.length;document.getElementById('lbimg').src=imgs[lbI];}
+document.addEventListener('keydown',e=>{const lb=document.getElementById('lb');if(!lb.classList.contains('on'))return;if(e.key==='Escape')closeLB();if(e.key==='ArrowRight')lbNav(1,{stopPropagation:()=>{}});if(e.key==='ArrowLeft')lbNav(-1,{stopPropagation:()=>{}});});
+
+// ── Carta tabs ──
+function showTab(id,btn){
+  document.querySelectorAll('.cpanel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.ctab').forEach(b=>b.classList.remove('on'));
+  document.getElementById('tab-'+id).classList.add('on');
+  btn.classList.add('on');
+}
+
+// ── Language ──
+function setLang(lang,btn){
+  document.documentElement.lang=lang;
+  document.querySelectorAll('[data-lang]').forEach(el=>el.classList.toggle('on',el.getAttribute('data-lang')===lang));
+  document.querySelectorAll('.lb').forEach(b=>b.classList.remove('on'));
+  if(btn)btn.classList.add('on');
+  document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+}
+
+// ── Sidebar ──
+function openSB(){document.getElementById('sb').classList.add('on');document.getElementById('ov').classList.add('on');document.body.style.overflow='hidden';}
+function closeSB(){document.getElementById('sb').classList.remove('on');document.getElementById('ov').classList.remove('on');document.body.style.overflow='';}
+
+// ── WhatsApp form ──
+function sendRes(){
+  const n=document.getElementById('fn').value||'Guest';
+  const d=document.getElementById('fd').value||'TBD';
+  const g=document.getElementById('fg3').value||'?';
+  const m=document.getElementById('fm').value||'';
+  window.open('https://wa.me/34608505300?text='+encodeURIComponent('Hola MoMA Cafe! Soy '+n+', quisiera reservar una mesa para '+g+' personas el '+d+'. '+m),'_blank');
+}
+
+// ── Cursor (desktop only) ──
+if(window.matchMedia('(pointer:fine)').matches){
+  const dot=document.getElementById('cdot'),ring=document.getElementById('cring');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx-3.5+'px';dot.style.top=my-3.5+'px';});
+  (function a(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx-13+'px';ring.style.top=ry-13+'px';requestAnimationFrame(a);})();
+  document.querySelectorAll('a,button,.wcard,.rc,.fact,.gi,.mc').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{ring.style.transform='scale(1.8)';ring.style.borderColor='var(--aqua)';});
+    el.addEventListener('mouseleave',()=>{ring.style.transform='scale(1)';ring.style.borderColor='var(--ocean)';});
+  });
+}
+
+// ── Scroll reveal ──
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');}),{threshold:.07});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+
+// ── Smooth scroll ──
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
+  const t=document.querySelector(a.getAttribute('href'));
+  if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});closeSB();}
+}));
+</script>
+</body>
+</html>
